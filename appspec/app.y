@@ -59,64 +59,64 @@ statements(result) ::= .
     result = 0;
 }
 
-statement(result) ::= STATEMENT_END.
+statement(result) ::= LINE_END.
 {
     result = 0;
 }
 
-statement(result) ::= LIB(command) STATEMENT_END.
+statement(result) ::= LIB(command) LINE_END.
 {
     result = ACTION(DeclareAsLibrary, command);
 }
 
-statement(result) ::= INCLUDE NAME(includeName) STATEMENT_END.
+statement(result) ::= INCLUDE NAME(includeName) LINE_END.
 {
     result = ACTION(IncludeHeader, includeName);
 }
 
-statement(result) ::= INCLUDE STRING(includeString) STATEMENT_END.
+statement(result) ::= INCLUDE STRING(includeString) LINE_END.
 {
     result = ACTION(IncludeHeader, includeString);
 }
 
-statement(result) ::= IMPORT NAME(importName) STATEMENT_END.
+statement(result) ::= IMPORT NAME(importName) LINE_END.
 {
     result = ACTION(ImportModule, importName, importName);
 }
 
 statement(result) ::=
-    IMPORT NAME(importName) AS NAME(asNameToken) STATEMENT_END.
+    IMPORT NAME(importName) AS NAME(asNameToken) LINE_END.
 {
     result = ACTION(ImportModule, importName, asNameToken);
 }
 
 statement(result) ::=
-    IMPORT STRING(importString) AS NAME (asNameToken) STATEMENT_END.
+    IMPORT STRING(importString) AS NAME (asNameToken) LINE_END.
 {
     result = ACTION(ImportModule, importString, asNameToken);
 }
 
 statement(result) ::=
-    NAME(nameToken) ASSIGN literal(value) STATEMENT_END.
+    NAME(nameToken) ASSIGN literal(value) LINE_END.
 {
     result = ACTION(MakeAssignment, nameToken, value);
 }
 
 statement(result) ::=
     DEF NAME(nameToken) LEFT_PAREN parameters(parameterList) RIGHT_PAREN
-    ASSIGN NAME(internalName) STATEMENT_END.
+    ASSIGN NAME(internalName) LINE_END.
 {
     result = ACTION
         (MakeFunction, nameToken, parameterList,
          internalName);
 }
 
-statement(result) ::= NAME(nameToken) STATEMENT_END.
+statement(result) ::= NAME(nameToken) LINE_END.
 {
     result = ACTION(MakeAssignment, nameToken, 0);
 }
 
-statement(result) ::= DEL names(nameList) STATEMENT_END.
+statement(result) ::= DEL names(nameList) LINE_END.
 {
     result = ACTION(DeleteDefinition, nameList);
 }

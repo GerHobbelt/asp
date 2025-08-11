@@ -65,6 +65,7 @@ class Generator
                     <std::string, // Import name
                      SourceElement> > >
             NextModule();
+        void SetSourceLocation(const SourceLocation &);
         unsigned ErrorCount() const;
         void Finalize();
 

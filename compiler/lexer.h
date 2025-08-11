@@ -36,7 +36,7 @@ class Lexer
         void FetchNext();
         Token *ProcessLineContinuation();
         Token *ProcessComment();
-        Token *ProcessStatementEnd();
+        Token *ProcessLineEnd();
         Token *ProcessNumber();
         Token *ProcessString();
         Token *ProcessName();

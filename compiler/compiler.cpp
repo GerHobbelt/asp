@@ -166,6 +166,11 @@ bool Compiler::IsAppModule(const string &moduleName) const
     return appModuleNames.find(moduleName) != appModuleNames.end();
 }
 
+void Compiler::SetSourceLocation(const SourceLocation &sourceLocation)
+{
+    currentSourceLocation = sourceLocation;
+}
+
 unsigned Compiler::ErrorCount() const
 {
     return errorCount;
@@ -303,7 +308,16 @@ DEFINE_ACTION
      Block *, block, Statement *, statement)
 {
     if (statement)
-        block->Add(statement);
+    {
+        auto blockStatement = dynamic_cast<BlockStatement *>(statement);
+        if (blockStatement == nullptr)
+            block->Add(statement);
+        else
+        {
+            blockStatement->MoveStatements(block);
+            delete statement;
+        }
+    }
     return block;
 }
 
@@ -566,6 +580,12 @@ DEFINE_ACTION
     (AssignStatement, Statement *, Statement *, statement)
 {
     return statement;
+}
+
+DEFINE_ACTION
+    (MakeBlockStatement, Statement *, Block *, block)
+{
+    return new BlockStatement(block);
 }
 
 DEFINE_ACTION

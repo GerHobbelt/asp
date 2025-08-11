@@ -79,9 +79,9 @@ void Lexer::FetchNext()
         }
         else
         {
-             if (c == '\n' && !continueLine)
+            if (c == '\n' && !continueLine)
                 checkIndent = true;
-             continueLine = false;
+            continueLine = false;
         }
         if (checkIndent && !isspace(c) && c != '\n' && c != '#')
             CheckIndent();
@@ -93,8 +93,8 @@ void Lexer::FetchNext()
             token = new Token(sourceLocation);
         else if (c == '#')
             token = ProcessComment();
-        else if (c == '\n' || c == ';')
-            token = ProcessStatementEnd();
+        else if (c == '\n')
+            token = ProcessLineEnd();
         else if (isdigit(c))
             token = ProcessNumber();
         else if (isalpha(c) || c == '_')
@@ -184,6 +184,7 @@ Token *Lexer::ProcessSpecial()
         {"|", TOKEN_BAR},
         {".", TOKEN_PERIOD},
         {":", TOKEN_COLON},
+        {";", TOKEN_SEMICOLON},
         {"`", TOKEN_GRAVE},
         {"(", TOKEN_LEFT_PAREN},
         {")", TOKEN_RIGHT_PAREN},
@@ -325,6 +326,6 @@ void Lexer::CheckIndent()
 
 static bool IsSpecial(int c)
 {
-    static const char chars[] = "!\"%&'()*+,-./:<=>[]^`{|}~";
+    static const char chars[] = "!\"%&'()*+,-./:;<=>[]^`{|}~";
     return c > 0 && c <= 0xFF && strchr(chars, c) != nullptr;
 }

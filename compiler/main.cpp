@@ -575,6 +575,8 @@ static int main1(int argc, char **argv)
                 break;
             }
 
+            compiler.SetSourceLocation(token->sourceLocation);
+
             Parse(parser, token->type, token);
             if (compiler.ErrorCount() > 0)
                 errorDetected = true;

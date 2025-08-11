@@ -41,7 +41,7 @@ Token *Lexer::Next()
         else if (c == '#')
             token = ProcessComment();
         else if (c == '\n')
-            token = ProcessStatementEnd();
+            token = ProcessLineEnd();
         else if (isdigit(c))
             token = ProcessNumber();
         else if (isalpha(c) || c == '_')

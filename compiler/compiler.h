@@ -78,6 +78,7 @@ class Compiler
              std::list<SourceElement> >
             NextModule();
         bool IsAppModule(const std::string &) const;
+        void SetSourceLocation(const SourceLocation &);
         unsigned ErrorCount() const;
         void Finalize();
 
@@ -165,6 +166,8 @@ class Compiler
     DECLARE_METHOD
         (MakeDefStatement, Statement *,
          Token *, ParameterList *, Block *)
+    DECLARE_METHOD
+        (MakeBlockStatement, Statement *, Block *)
     DECLARE_METHOD
         (AssignStatement, Statement *, Statement *)
 
