@@ -520,6 +520,16 @@ static int main1(int argc, char **argv)
                     << ": Error opening " << moduleFileName
                     << ": " << strerror(errno) << endl;
             }
+
+            // Ensure the error is reported at least once (i.e., for the
+            // top-level source file).
+            if (sourceReferences.empty())
+            {
+                cerr
+                    << "Error opening " << moduleFileName
+                    << ": " << strerror(errno) << endl;
+            }
+
             errorDetected = true;
             break;
         }

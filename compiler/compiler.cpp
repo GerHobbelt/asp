@@ -577,15 +577,15 @@ DEFINE_ACTION
 }
 
 DEFINE_ACTION
-    (AssignStatement, Statement *, Statement *, statement)
-{
-    return statement;
-}
-
-DEFINE_ACTION
     (MakeBlockStatement, Statement *, Block *, block)
 {
     return new BlockStatement(block);
+}
+
+DEFINE_ACTION
+    (AssignStatement, Statement *, Statement *, statement)
+{
+    return statement;
 }
 
 DEFINE_ACTION
