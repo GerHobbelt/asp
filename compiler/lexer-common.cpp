@@ -84,10 +84,10 @@ Token *Lexer::ProcessComment()
     return nullptr; // no token
 }
 
-Token *Lexer::ProcessStatementEnd()
+Token *Lexer::ProcessLineEnd()
 {
-    Get(); // ; or newline
-    return new Token(sourceLocation, TOKEN_STATEMENT_END);
+    Get(); // newline
+    return new Token(sourceLocation, TOKEN_LINE_END);
 }
 
 Token *Lexer::ProcessNumber()

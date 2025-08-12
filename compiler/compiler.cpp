@@ -141,6 +141,11 @@ string Compiler::NextModuleFileName()
     return moduleFileName;
 }
 
+void Compiler::SetSourceLocation(const SourceLocation &sourceLocation)
+{
+    currentSourceLocation = sourceLocation;
+}
+
 unsigned Compiler::ErrorCount() const
 {
     return errorCount;
@@ -278,7 +283,16 @@ DEFINE_ACTION
      Block *, block, Statement *, statement)
 {
     if (statement)
-        block->Add(statement);
+    {
+        auto blockStatement = dynamic_cast<BlockStatement *>(statement);
+        if (blockStatement == nullptr)
+            block->Add(statement);
+        else
+        {
+            blockStatement->MoveStatements(block);
+            delete statement;
+        }
+    }
     return block;
 }
 
@@ -526,6 +540,12 @@ DEFINE_ACTION
     auto result = new DefStatement(*nameToken, parameterList, block);
     delete nameToken;
     return result;
+}
+
+DEFINE_ACTION
+    (MakeBlockStatement, Statement *, Block *, block)
+{
+    return new BlockStatement(block);
 }
 
 DEFINE_ACTION

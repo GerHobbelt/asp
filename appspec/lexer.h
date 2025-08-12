@@ -35,7 +35,7 @@ class Lexer
         // Token scanning methods.
         Token *ProcessLineContinuation();
         Token *ProcessComment();
-        Token *ProcessStatementEnd();
+        Token *ProcessLineEnd();
         Token *ProcessNumber();
         Token *ProcessSignedNumber();
         Token *ProcessString();

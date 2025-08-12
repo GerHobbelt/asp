@@ -89,6 +89,31 @@ const Statement *Block::FinalStatement() const
     return statements.empty() ? nullptr : statements.back();
 }
 
+BlockStatement::BlockStatement(Block *block) :
+    Statement(*block),
+    block(block)
+{
+    block->Parent(this);
+}
+
+BlockStatement::~BlockStatement()
+{
+    delete block;
+}
+
+void BlockStatement::MoveStatements(Block *destinationBlock)
+{
+    for (auto iter = block->statements.begin();
+         iter != block->statements.end(); iter++)
+    {
+        auto statement = *iter;
+
+        destinationBlock->Add(statement);
+    }
+
+    block->statements.clear();
+}
+
 ExpressionStatement::ExpressionStatement(Expression *expression) :
     Statement(*expression),
     expression(expression)

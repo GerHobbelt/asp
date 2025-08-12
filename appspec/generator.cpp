@@ -29,6 +29,11 @@ Generator::~Generator()
         delete iter->second;
 }
 
+void Generator::SetSourceLocation(const SourceLocation &sourceLocation)
+{
+    currentSourceLocation = sourceLocation;
+}
+
 unsigned Generator::ErrorCount() const
 {
     return errorCount;

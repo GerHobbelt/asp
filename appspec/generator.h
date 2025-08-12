@@ -53,6 +53,7 @@ class Generator
         ~Generator();
 
         // Generator methods.
+        void SetSourceLocation(const SourceLocation &);
         unsigned ErrorCount() const;
 
         // Source file methods.

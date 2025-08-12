@@ -55,8 +55,26 @@ class Block : public NonTerminal
 
     private:
 
+        friend class BlockStatement;
+
         Statement *parentStatement = nullptr;
         std::list<Statement *> statements;
+};
+
+class BlockStatement : public Statement
+{
+    public:
+
+        explicit BlockStatement(Block *);
+        ~BlockStatement() override;
+
+        void MoveStatements(Block *destinationBlock);
+
+        void Emit(Executable &) const override;
+
+    private:
+
+        Block *block;
 };
 
 class ExpressionStatement : public Statement

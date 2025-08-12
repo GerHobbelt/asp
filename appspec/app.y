@@ -59,42 +59,42 @@ statements(result) ::= .
     result = 0;
 }
 
-statement(result) ::= STATEMENT_END.
+statement(result) ::= LINE_END.
 {
     result = 0;
 }
 
-statement(result) ::= LIB STATEMENT_END.
+statement(result) ::= LIB LINE_END.
 {
     result = ACTION(DeclareAsLibrary, 0);
 }
 
-statement(result) ::= INCLUDE NAME(includeName) STATEMENT_END.
+statement(result) ::= INCLUDE NAME(includeName) LINE_END.
 {
     result = ACTION(IncludeHeader, includeName);
 }
 
 statement(result) ::=
-    NAME(nameToken) ASSIGN literal(value) STATEMENT_END.
+    NAME(nameToken) ASSIGN literal(value) LINE_END.
 {
     result = ACTION(MakeAssignment, nameToken, value);
 }
 
 statement(result) ::=
     DEF NAME(nameToken) LEFT_PAREN parameters(parameterList) RIGHT_PAREN
-    ASSIGN NAME(internalName) STATEMENT_END.
+    ASSIGN NAME(internalName) LINE_END.
 {
     result = ACTION
         (MakeFunction, nameToken, parameterList,
          internalName);
 }
 
-statement(result) ::= NAME(nameToken) STATEMENT_END.
+statement(result) ::= NAME(nameToken) LINE_END.
 {
     result = ACTION(MakeAssignment, nameToken, 0);
 }
 
-statement(result) ::= DEL names(nameList) STATEMENT_END.
+statement(result) ::= DEL names(nameList) LINE_END.
 {
     result = ACTION(DeleteDefinition, nameList);
 }

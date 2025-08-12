@@ -20,6 +20,12 @@ void Block::Emit(Executable &executable) const
         (*iter)->Emit(executable);
 }
 
+void BlockStatement::Emit(Executable &executable) const
+{
+    throw string
+        ("Internal error: Block statement remaining after parsing phase");
+}
+
 void ExpressionStatement::Emit(Executable &executable) const
 {
     expression->Emit(executable);
@@ -643,7 +649,7 @@ void DefStatement::Emit(Executable &executable) const
         if (finalReturnStatement == nullptr)
         {
             executable.Insert
-                (new PushNoneInstruction("Push default return value)"),
+                (new PushNoneInstruction("Push default return value"),
                  sourceLocation);
             executable.Insert(new ReturnInstruction, sourceLocation);
         }

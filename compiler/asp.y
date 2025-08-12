@@ -88,7 +88,7 @@ statements(result) ::= .
 
 %type statement {Statement *}
 
-statement(result) ::= STATEMENT_END.
+statement(result) ::= LINE_END.
 {
     result = 0;
 }
@@ -98,9 +98,9 @@ statement(result) ::= compound_statement(statement).
     result = ACTION(AssignStatement, statement);
 }
 
-statement(result) ::= simple_statement(statement).
+statement(result) ::= simple_statements(block) LINE_END.
 {
-    result = ACTION(AssignStatement, statement);
+    result = ACTION(MakeBlockStatement, block);
 }
 
 %type compound_statement {Statement *}
@@ -326,7 +326,25 @@ block(result) ::= BLOCK_START statements(block) BLOCK_END.
     result = ACTION(AssignBlock, block);
 }
 
-block(result) ::= COLON simple_statement(statement). [BLOCK_START]
+block(result) ::= COLON simple_statements(block) LINE_END. [BLOCK_START]
+{
+    result = ACTION(AssignBlock, block);
+}
+
+%type simple_statements {Block *}
+
+simple_statements(result) ::= simple_statements(block) SEMICOLON.
+{
+    result = ACTION(AssignBlock, block);
+}
+
+simple_statements(result) ::=
+    simple_statements(block) SEMICOLON simple_statement(statement).
+{
+    result = ACTION(AddStatementToBlock, block, statement);
+}
+
+simple_statements(result) ::= simple_statement(statement).
 {
     result = ACTION
         (AddStatementToBlock,
@@ -336,69 +354,62 @@ block(result) ::= COLON simple_statement(statement). [BLOCK_START]
 
 %type simple_statement {Statement *}
 
-simple_statement(result) ::= simple_statement_stem(stem) STATEMENT_END.
-{
-    result = ACTION(AssignStatement, stem);
-}
-
-%type simple_statement_stem {Statement *}
-
-simple_statement_stem(result) ::= assignment(assignmentStatement).
+simple_statement(result) ::= assignment(assignmentStatement).
 {
     result = ACTION(MakeAssignmentStatement, assignmentStatement);
 }
 
-simple_statement_stem(result) ::= insertion(insertionStatement).
+simple_statement(result) ::= insertion(insertionStatement).
 {
     result = ACTION(MakeInsertionStatement, insertionStatement);
 }
 
-simple_statement_stem(result) ::= expression(expression).
+simple_statement(result) ::= expression(expression).
 {
     result = ACTION(MakeExpressionStatement, expression);
 }
 
-simple_statement_stem(result) ::= import(statement).
+simple_statement(result) ::= import(statement).
 {
     result = ACTION(AssignStatement, statement);
 }
 
-simple_statement_stem(result) ::= global(statement).
+simple_statement(result) ::= global(statement).
 {
     result = ACTION(AssignStatement, statement);
 }
 
-simple_statement_stem(result) ::= local(statement).
+simple_statement(result) ::= local(statement).
 {
     result = ACTION(AssignStatement, statement);
 }
 
-simple_statement_stem(result) ::= del(statement).
+simple_statement(result) ::= del(statement).
 {
     result = ACTION(AssignStatement, statement);
 }
 
-simple_statement_stem(result) ::= return(statement).
+simple_statement(result) ::= return(statement).
 {
     result = ACTION(AssignStatement, statement);
 }
 
-simple_statement_stem(result) ::= assert(statement).
+simple_statement(result) ::= assert(statement).
 {
     result = ACTION(AssignStatement, statement);
 }
 
-simple_statement_stem(result) ::= BREAK(token).
+simple_statement(result) ::= BREAK(token).
 {
     result = ACTION(MakeBreakStatement, token);
 }
 
-simple_statement_stem(result) ::= CONTINUE(token).
+simple_statement(result) ::= CONTINUE(token).
 {
     result = ACTION(MakeContinueStatement, token);
 }
 
-simple_statement_stem(result) ::= PASS(token).
+simple_statement(result) ::= PASS(token).
 {
     result = ACTION(MakePassStatement, token);
 }

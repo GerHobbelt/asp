@@ -198,6 +198,8 @@ static int main1(int argc, char **argv)
             break;
         }
 
+        generator.SetSourceLocation(token->sourceLocation);
+
         Parse(activeSourceFile.parser, token->type, token);
         if (generator.ErrorCount() > 0)
         {
