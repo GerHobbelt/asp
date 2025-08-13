@@ -53,14 +53,23 @@ string(CONCAT STR
 list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
 string(CONCAT STR
     "CreateDirectory "
-    "\\\"\$INSTDIR\\\\include\\\\asp-lib\\\"")
+    "\\\"\$INSTDIR\\\\include\\\\scripts\\\"")
+list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "ReadRegStr \\$0 HKLM "
+    "\\\"SYSTEM\\\\CurrentControlSet\\\\"
+    "Control\\\\Session Manager\\\\Environment\\\""
+    " ASP_INCLUDE")
+list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "StrCmp \\$0 \\\"\\\" +1 +2")
 list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
 string(CONCAT STR
     "WriteRegExpandStr HKLM "
     "\\\"SYSTEM\\\\CurrentControlSet\\\\"
     "Control\\\\Session Manager\\\\Environment\\\""
     " ASP_INCLUDE "
-    "\\\"!\$INSTDIR\\\\include\\\\asp-lib\\\"")
+    "\\\"!\$INSTDIR\\\\include\\\\scripts\\\"")
 list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
 string(REPLACE ";" "\n" CPACK_NSIS_EXTRA_INSTALL_COMMANDS
     "${CPACK_NSIS_EXTRA_INSTALL_COMMANDS}")
@@ -81,7 +90,16 @@ string(CONCAT STR
 list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
 string(CONCAT STR
     "RMDir "
-    "\\\"\$INSTDIR\\\\include\\\\asp-lib\\\"")
+    "\\\"\$INSTDIR\\\\include\\\\scripts\\\"")
+list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "ReadRegStr \\$0 HKLM "
+    "\\\"SYSTEM\\\\CurrentControlSet\\\\"
+    "Control\\\\Session Manager\\\\Environment\\\""
+    " ASP_INCLUDE")
+list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "StrCmp \\$0 \\\"!\$INSTDIR\\\\include\\\\scripts\\\" +1 +2")
 list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
 string(CONCAT STR
     "DeleteRegValue HKLM "
@@ -90,6 +108,8 @@ string(CONCAT STR
     " ASP_INCLUDE")
 list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
 string(REPLACE ";" "\n" CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS
+    "${CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS}")
+string(REPLACE "!" ";" CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS
     "${CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS}")
 
 set(CPACK_NSIS_INSTALLED_ICON_NAME Uninstall.exe)
