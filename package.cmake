@@ -51,7 +51,20 @@ string(CONCAT STR
     " ASP_SPEC_INCLUDE "
     "\\\"\$INSTDIR\\\\include\\\\asps\\\"")
 list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "CreateDirectory "
+    "\\\"\$INSTDIR\\\\include\\\\asp-lib\\\"")
+list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "WriteRegExpandStr HKLM "
+    "\\\"SYSTEM\\\\CurrentControlSet\\\\"
+    "Control\\\\Session Manager\\\\Environment\\\""
+    " ASP_INCLUDE "
+    "\\\"!\$INSTDIR\\\\include\\\\asp-lib\\\"")
+list(APPEND CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${STR}")
 string(REPLACE ";" "\n" CPACK_NSIS_EXTRA_INSTALL_COMMANDS
+    "${CPACK_NSIS_EXTRA_INSTALL_COMMANDS}")
+string(REPLACE "!" ";" CPACK_NSIS_EXTRA_INSTALL_COMMANDS
     "${CPACK_NSIS_EXTRA_INSTALL_COMMANDS}")
 
 string(CONCAT STR
@@ -65,6 +78,16 @@ string(CONCAT STR
     "\\\"SYSTEM\\\\CurrentControlSet\\\\"
     "Control\\\\Session Manager\\\\Environment\\\""
     " ASP_SPEC_INCLUDE")
+list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "RMDir "
+    "\\\"\$INSTDIR\\\\include\\\\asp-lib\\\"")
+list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
+string(CONCAT STR
+    "DeleteRegValue HKLM "
+    "\\\"SYSTEM\\\\CurrentControlSet\\\\"
+    "Control\\\\Session Manager\\\\Environment\\\""
+    " ASP_INCLUDE")
 list(APPEND CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "${STR}")
 string(REPLACE ";" "\n" CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS
     "${CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS}")
