@@ -7,6 +7,16 @@ chronological order.
 Changes
 -------
 
+Version 1.1.4.5 (compiler 1.1.0.2, engine 1.1.4.4):
+- Compiler:
+  - Corrected the grammar for a list of semicolon-separated statements on the
+    same line as a compound statement, after the colon. Previously, only the
+    first statement in the list was considered part of the controlled block and
+    subsequent statements in the list were incorrectly treated as independent
+    statements.
+- Compiler and application specification generator:
+  - Improved source location reporting for syntax errors.
+
 Version 1.1.4.4 (compiler 1.1.0.1, engine 1.1.4.4):
 Engine:
   - Fixed a bug in the script-callable exit function that was converting a
