@@ -7,6 +7,27 @@ chronological order.
 Changes
 -------
 
+Version 1.2.4.3 (generator 1.2.2.2, compiler 1.2.2.3, engine 1.2.3.2):
+- Compiler:
+  - Corrected the grammar for a list of semicolon-separated statements on the
+    same line as a compound statement, after the colon. Previously, only the
+    first statement in the list was considered part of the controlled block and
+    subsequent statements in the list were incorrectly treated as independent
+    statements.
+  - Fixed a regression, introduced in version 1.2.4.0, compiler version
+    1.2.2.0, that caused the reporting of an error to be omitted when the
+    top-level source file is not found.
+- Compiler and application specification generator:
+  - Improved source location reporting for syntax errors.
+- Build:
+  - NSIS Windows installer:
+    - Created a directory where custom scripts can go. During uninstall, the
+      directory is retained if it not empty.
+    - Added setting of the ASP_INCLUDE environment variable, making sure to not
+      overwrite it if it already exists. During an uninstall, the variable is
+      removed unless it was modified from its canonical installation value, in
+      which case it is retained.
+
 Version 1.2.4.2 (generator 1.2.2.1, compiler 1.2.2.2, engine 1.2.3.2):
 - Compiler:
   - Fixed issues with lexical analysis with respect to where separators are
@@ -261,7 +282,7 @@ Version 1.1.1.0 (generator 1.1.0.0, compiler 1.1.0.0, engine 1.1.1.0):
     their dependencies (i.e., various C math routines).
 - Build:
   - Added a CPack-based packaging script for building several source and
-    binary packages, including an installer for Windows systems.
+    binary packages, including an installer for Windows systems using NSIS.
 
 Version 1.1.0.0 (generator 1.1.0.0, compiler 1.1.0.0, engine 1.1.0.0):
 - Compiler:
