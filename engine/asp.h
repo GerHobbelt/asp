@@ -116,6 +116,7 @@ ASP_API uint32_t AspGetCycleDetectionLimit(const AspEngine *);
 /* Execution control. */
 ASP_API AspRunResult AspRestart(AspEngine *);
 ASP_API AspRunResult AspStep(AspEngine *);
+ASP_API AspRunResult AspGetRunResult(AspEngine *);
 ASP_API bool AspIsReady(const AspEngine *);
 ASP_API bool AspIsRunning(const AspEngine *);
 ASP_API bool AspIsRunnable(const AspEngine *);
