@@ -368,7 +368,7 @@ int main(int argc, char **argv)
     }
     #endif
 
-    // Report program version information.
+    // Report program and engine version information.
     FILE *reportFile;
     #ifdef ASP_DEBUG
     reportFile = traceFile;
@@ -379,10 +379,19 @@ int main(int argc, char **argv)
     {
         fprintf
             (reportFile, "Asp standalone application version %d.%d.%d.%d\n",
-             ASP_STANDALONE_VERSION_MAJOR,
-             ASP_STANDALONE_VERSION_MINOR,
-             ASP_STANDALONE_VERSION_PATCH,
-             ASP_STANDALONE_VERSION_TWEAK);
+             ASP_STANDALONE_VERSION_MAJOR, ASP_STANDALONE_VERSION_MINOR,
+             ASP_STANDALONE_VERSION_PATCH, ASP_STANDALONE_VERSION_TWEAK);
+
+        uint8_t engineVersion[4];
+        AspEngineVersion(engineVersion);
+        fputs("Engine version: ", reportFile);
+        for (unsigned i = 0; i < sizeof engineVersion; i++)
+        {
+            if (i != 0)
+                fputc('.', reportFile);
+            fprintf(reportFile, "%u", static_cast<unsigned>(engineVersion[i]));
+        }
+        fputc('\n', reportFile);
     }
 
     // Obtain executable file name.
@@ -614,20 +623,12 @@ int main(int argc, char **argv)
         }
     }
 
-    // Report engine and code version information.
+    // Report code version information.
     if (verbose)
     {
-        uint8_t engineVersion[4], codeVersion[4];
-        AspEngineVersion(engineVersion);
+        uint8_t codeVersion[4];
         AspCodeVersion(&engine, codeVersion);
-        fputs("Engine version: ", reportFile);
-        for (unsigned i = 0; i < sizeof engineVersion; i++)
-        {
-            if (i != 0)
-                fputc('.', reportFile);
-            fprintf(reportFile, "%u", static_cast<unsigned>(engineVersion[i]));
-        }
-        fputs("\nCode version: ", reportFile);
+        fputs("Code version: ", reportFile);
         for (unsigned i = 0; i < sizeof codeVersion; i++)
         {
             if (i != 0)
