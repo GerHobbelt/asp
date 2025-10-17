@@ -851,7 +851,7 @@ static AspRunResult LoadSignedInteger
     return AspRunResult_OK;
 }
 
-AspRunResult AspGetRunResult(AspEngine *engine)
+AspRunResult AspGetRunResult(const AspEngine *engine)
 {
     return engine->runResult;
 }
