@@ -7,6 +7,14 @@ chronological order.
 Changes
 -------
 
+Version 1.2.4.4 (generator 1.2.2.2, compiler 1.2.2.3, engine 1.2.3.3):
+- Engine:
+  - Added API function AspGetRunResult to obtain the current run result of the
+    engine without having to step it.
+- Standalone application:
+  - Added reporting of the engine version when verbose mode is enabled even
+    when no script is specified.
+
 Version 1.2.4.3 (generator 1.2.2.2, compiler 1.2.2.3, engine 1.2.3.2):
 - Compiler:
   - Corrected the grammar for a list of semicolon-separated statements on the
